@@ -1,0 +1,86 @@
+.Navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  border-bottom: 1px solid rgb(181, 181, 184);
+  .search-box-container {
+    width: 45%;
+    input {
+      width: 55%;
+      font-size: 20px;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgb(128, 128, 137);
+    }
+    button {
+      margin-left: 2%;
+      width: 15%;
+      font-size: 20px;
+      padding: 10px 20px 10px 20px;
+      border-radius: 10px;
+      background-color: #fff;
+      border: 1px solid rgb(128, 128, 137);
+
+      color: rgb(10, 104, 255);
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgba(10, 104, 255, 0.2);
+    }
+  }
+  .navbar-choices {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    margin-left: -40%;
+    button {
+      margin: 0 10px 0 10px;
+      background-color: transparent;
+      border: none;
+      border-radius: 10px;
+      width: 40%;
+      font-size: 22px;
+      color: rgb(128, 128, 137);
+      padding: 10px 10px 15px 10px;
+
+      .icon {
+        font-size: 30px;
+        margin-bottom: -5px;
+        margin-right: 5px;
+      }
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: rgb(231, 229, 229);
+    }
+    .seperator {
+      width: 1px;
+      background-color: rgb(128, 128, 137);
+      height: 20px;
+    }
+    .cart {
+      font-size: 25px;
+      margin-left: 15px;
+      margin-top: 5px;
+      color: rgb(11, 116, 229);
+      padding: 10px 12px 10px 10px;
+      border-radius: 10px;
+      position: relative;
+      .cart-number {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        color: white;
+        background-color: red;
+        font-size: 15px;
+        padding: 2px 2px 2px 3px;
+        border-radius: 100%;
+      }
+    }
+    .cart:hover {
+      background-color: rgba(10, 104, 255, 0.2);
+    }
+  }
+}
