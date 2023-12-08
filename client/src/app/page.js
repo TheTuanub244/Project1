@@ -5,10 +5,12 @@ import Navbar from "./components/layouts/Navbar";
 import Filterbar from "./components/layouts/Filterbar";
 import "../app/global.scss";
 import { handleGetAllItem } from "./services/ItemService";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ItemCard from "./components/layouts/ItemCard";
+import CartContext from "./context/CartContext";
 export default function Home() {
   const [item, setItem] = useState();
+  const { cart, handleAddToCart } = useContext(CartContext);
   const getAllItem = async () => {
     const respone = await handleGetAllItem();
     setItem(respone?.data?.respone?.DT);
@@ -18,7 +20,6 @@ export default function Home() {
   }, []);
   return (
     <>
-      <Navbar />
       <div className="container">
         <Filterbar />
         <div className="card-container">

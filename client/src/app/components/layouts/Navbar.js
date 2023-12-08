@@ -3,7 +3,15 @@ import "@/app/styles/Navbar.scss";
 import { IoHome } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { LuShoppingCart } from "react-icons/lu";
-const Navbar = ({ cart }) => {
+import { useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
+import CartContext from "@/app/context/CartContext";
+const Navbar = () => {
+  const router = useRouter();
+  const { numberProduct } = useContext(CartContext);
+  useEffect(() => {
+    console.log(numberProduct);
+  }, []);
   return (
     <div className="Navbar-container">
       <div className="search-box-container">
@@ -11,7 +19,7 @@ const Navbar = ({ cart }) => {
         <button>Tìm kiếm</button>
       </div>
       <div className="navbar-choices">
-        <button className="homepage">
+        <button className="homepage" onClick={() => router.push("/")}>
           <IoHome className="icon" />
           Trang chủ
         </button>
@@ -20,9 +28,9 @@ const Navbar = ({ cart }) => {
           Đăng nhập
         </button>
         <div className="seperator" />
-        <div className="cart">
+        <div className="cart" onClick={() => router.push("/cart")}>
           <LuShoppingCart className="shopping-cart" />
-          <div className="cart-number">0</div>
+          <div className="cart-number">{numberProduct}</div>
         </div>
       </div>
     </div>

@@ -68,6 +68,7 @@
       padding: 10px 12px 10px 10px;
       border-radius: 10px;
       position: relative;
+      cursor: pointer;
       .cart-number {
         position: absolute;
         top: -5px;
@@ -75,7 +76,7 @@
         color: white;
         background-color: red;
         font-size: 15px;
-        padding: 2px 2px 2px 3px;
+        padding: 2px 3 px 2px 3px;
         border-radius: 100%;
       }
     }

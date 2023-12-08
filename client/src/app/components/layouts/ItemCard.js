@@ -1,9 +1,12 @@
 "use client";
+import CartContext from "@/app/context/CartContext";
 import "@/app/styles/ItemCard.scss";
 import { Rating } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 const ItemCard = ({ item }) => {
   const router = useRouter();
+  const { cart, handleAddToCart } = useContext(CartContext);
   return (
     <>
       <div className="card">
@@ -22,13 +25,15 @@ const ItemCard = ({ item }) => {
               precision={0.5}
             />
             <p>{item?.totalRate}</p>
-            <p>{item?.description}</p>
           </div>
+          <p>{item?.description}</p>
         </div>
         <div className="item-checkout">
           <h4>{item?.oldPrice}đ</h4>
           <p>Miễn phí giao hàng</p>
-          <button>Thêm vào giỏ hàng</button>
+          <button onClick={() => handleAddToCart(item)}>
+            Thêm vào giỏ hàng
+          </button>
         </div>
       </div>
     </>
