@@ -1,0 +1,47 @@
+.login-dialog {
+  width: 30%;
+  margin-left: 40%;
+  margin-top: 10%;
+  padding: 20px;
+  p {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  input {
+    width: 50%;
+    font-size: 20px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid rgb(181, 181, 184);
+    border-radius: 10px;
+  }
+  .signin-btn {
+    margin-top: 20px;
+    width: 53%;
+    button {
+      width: 100%;
+      font-size: 20px;
+      padding: 10px 20px 10px 20px;
+      border: none;
+      background-color: rgb(37 99 235);
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+    }
+  }
+  .seperator {
+    width: 1px;
+    background-color: rgb(181, 181, 184);
+  }
+  .register-container {
+    display: flex;
+    .register-btn {
+      margin-left: 1%;
+      color: rgb(11, 116, 229);
+      cursor: pointer;
+    }
+    .register-btn:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -43,6 +43,14 @@ export const CartProvider = ({ children }) => {
     }));
     setTotalCart(totalUniqueProduct);
   }, [cart]);
+  const handleRemoveProduct = (id) => {
+    const getItem = JSON.parse(localStorage.getItem("productCart"));
+    const itemToKeep = getItem.filter((item) => item?.id !== id);
+    setCart(itemToKeep);
+    localStorage.setItem("productCart", JSON.stringify(itemToKeep));
+    setNumberProduct(itemToKeep?.length);
+  };
+  const addressShipping = () => {};
   return (
     <CartContext.Provider
       value={{
@@ -52,6 +60,7 @@ export const CartProvider = ({ children }) => {
         totalCart,
         addCart,
         minusCart,
+        handleRemoveProduct,
       }}
     >
       {children}

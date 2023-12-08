@@ -57,7 +57,7 @@ const page = ({ params }) => {
             </div>
           </div>
           <div className="right-container">
-            <Stack>
+            <Stack className="">
               <h2>{item?.itemName}</h2>
               <div className="rating">
                 <Rating

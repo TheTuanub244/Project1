@@ -23,7 +23,7 @@ const Navbar = () => {
           <IoHome className="icon" />
           Trang chủ
         </button>
-        <button className="sign-in">
+        <button className="sign-in" onClick={() => router.push("/login")}>
           <CiUser className="icon" />
           Đăng nhập
         </button>
