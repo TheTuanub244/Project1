@@ -1,15 +1,17 @@
 .login-dialog {
-  width: 30%;
-  margin-left: 40%;
+  width: 20%;
+  margin-left: 38%;
   margin-top: 10%;
   padding: 20px;
+  box-shadow: 2px 2px 2px 5px rgb(181, 181, 184);
+  border-radius: 10px;
   p {
     margin-bottom: 5px;
     font-size: 20px;
     font-weight: 600;
   }
   input {
-    width: 50%;
+    width: 95%;
     font-size: 20px;
     padding: 5px 10px 5px 10px;
     border: 1px solid rgb(181, 181, 184);
@@ -17,7 +19,7 @@
   }
   .signin-btn {
     margin-top: 20px;
-    width: 53%;
+    width: 100%;
     button {
       width: 100%;
       font-size: 20px;

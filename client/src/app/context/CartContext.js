@@ -50,7 +50,6 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("productCart", JSON.stringify(itemToKeep));
     setNumberProduct(itemToKeep?.length);
   };
-  const addressShipping = () => {};
   return (
     <CartContext.Provider
       value={{

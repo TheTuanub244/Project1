@@ -6,7 +6,7 @@ import "@/app/styles/Cart.scss";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { getProvince } from "@/app/services/ApiService";
 import AddressModal from "@/app/components/layouts/modals/AddressModal";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 const page = () => {
   const { totalCart, addCart, minusCart, handleRemoveProduct } =
     useContext(CartContext);
@@ -32,7 +32,7 @@ const page = () => {
     handleShow();
   };
   return (
-    <>
+    <div>
       <div className="cart-container">
         <div className="item-list">
           {totalCart?.map((index) => (
@@ -74,7 +74,7 @@ const page = () => {
         </div>
       </div>
       <AddressModal show={show} handleClose={handleClose} />
-    </>
+    </div>
   );
 };
 export default page;
