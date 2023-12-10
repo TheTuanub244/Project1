@@ -46,4 +46,15 @@
       text-decoration: underline;
     }
   }
+  .error {
+    margin-top: -10px;
+    color: red;
+    display: block;
+  }
+  .invalid-input {
+    border: 1px solid red;
+  }
+  .hidden-div {
+    display: none;
+  }
 }
