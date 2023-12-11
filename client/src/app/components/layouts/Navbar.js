@@ -6,24 +6,31 @@ import { LuShoppingCart } from "react-icons/lu";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import CartContext from "@/app/context/CartContext";
-const Navbar = () => {
+import { handleGetAllItem } from "@/app/services/ItemService";
+const Navbar = ({ allItem, setSearch, itemDisplay, setItemDisplay }) => {
   const router = useRouter();
-  const { numberProduct } = useContext(CartContext);
+  const { numberProduct, cart } = useContext(CartContext);
   const [user, setUser] = useState();
   const url = usePathname();
   useEffect(() => {
     const checkSignIn = JSON.parse(localStorage.getItem("user"));
-
     setUser(checkSignIn);
   }, []);
   const handleLogin = () => {
     localStorage.setItem("callbackURL", JSON.stringify(url));
     router.push("/login");
   };
+  const handleSearchProduct = (e) => {
+    setSearch(e);
+  };
   return (
     <div className="Navbar-container">
       <div className="search-box-container">
-        <input type="text" placeholder="Tìm kiếm sản phẩm" />
+        <input
+          type="text"
+          placeholder="Tìm kiếm sản phẩm"
+          onChange={(e) => handleSearchProduct(e.target.value)}
+        />
         <button>Tìm kiếm</button>
       </div>
       <div className="navbar-choices">

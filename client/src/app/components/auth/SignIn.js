@@ -23,9 +23,9 @@ const SignIn = () => {
       localStorage.setItem(
         "user",
         JSON.stringify({
-          lastName: getRespone?.data?.respone?.DT?.user?.lastName,
-          firstName: getRespone?.data?.respone?.DT?.user?.firstName,
-          email: getRespone?.data?.respone?.DT?.user?.email,
+          lastName: getRespone?.data?.respone?.DT?.lastName,
+          firstName: getRespone?.data?.respone?.DT?.firstName,
+          email: getRespone?.data?.respone?.DT?.email,
         })
       );
       const getCallbackURL = JSON.parse(localStorage.getItem("callbackURL"));

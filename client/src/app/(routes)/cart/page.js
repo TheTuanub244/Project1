@@ -34,36 +34,40 @@ const page = () => {
   return (
     <div>
       <div className="cart-container">
-        <div className="item-list">
-          {totalCart?.map((index) => (
-            <div className="item-container">
-              <img src={index?.data?.image1} />
-              <div className="item-name">
-                <h4>{index?.data?.itemName}</h4>
-                <p>Nhãn hiệu/Người bán: {index?.data?.brand}</p>
-              </div>
-              <div className="button-group">
-                <button onClick={() => minusCart(index?.data)}>
-                  <FaMinus />
+        {totalCart.length !== 0 ? (
+          <div className="item-list">
+            {totalCart?.map((index) => (
+              <div className="item-container">
+                <img src={index?.data?.image1} />
+                <div className="item-name">
+                  <h4>{index?.data?.itemName}</h4>
+                  <p>Nhãn hiệu/Người bán: {index?.data?.brand}</p>
+                </div>
+                <div className="button-group">
+                  <button onClick={() => minusCart(index?.data)}>
+                    <FaMinus />
+                  </button>
+                  <label>{index?.count}</label>
+                  <button onClick={() => addCart(index?.data)}>
+                    <FaPlus />
+                  </button>
+                </div>
+                <div className="item-price">
+                  <h4>{index?.totalPrice}đ</h4>
+                  <p>{index?.data?.oldPrice}/sản phẩm</p>
+                </div>
+                <button
+                  className="remove-btn"
+                  onClick={() => handleRemoveProduct(index?.data?.id)}
+                >
+                  Loại bỏ
                 </button>
-                <label>{index?.count}</label>
-                <button onClick={() => addCart(index?.data)}>
-                  <FaPlus />
-                </button>
               </div>
-              <div className="item-price">
-                <h4>{index?.totalPrice}đ</h4>
-                <p>{index?.data?.oldPrice}/sản phẩm</p>
-              </div>
-              <button
-                className="remove-btn"
-                onClick={() => handleRemoveProduct(index?.data?.id)}
-              >
-                Loại bỏ
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <h4>Không có sản phẩm nào trong giỏ hàng</h4>
+        )}
         <div className="checkout-container">
           <div className="shipping-container">
             <div className="shipping-header">
