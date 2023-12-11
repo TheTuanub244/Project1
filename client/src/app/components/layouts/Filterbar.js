@@ -10,11 +10,19 @@ import Checkbox from "@mui/material/Checkbox";
 import { Radio, RadioGroup, Rating, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ItemService, { handleGetAllItem } from "../../services/ItemService";
-const Filterbar = () => {
+const Filterbar = ({ allItem, setFilteredItem, setTotalPage }) => {
   const [star, setStar] = useState();
   const handleChangeRate = (e) => {
     setStar(e.target.value);
   };
+  useEffect(() => {
+    const getFilteredItem = allItem?.filter(
+      (index) => index?.totalRate == star
+    );
+    setFilteredItem(getFilteredItem);
+    const pageToDisplpay = Math.ceil(getFilteredItem?.length / 3);
+    setTotalPage(pageToDisplpay);
+  }, [star]);
   return (
     <div className="filterbar-container">
       <div className="price-filter">

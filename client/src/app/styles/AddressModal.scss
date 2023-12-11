@@ -1,0 +1,63 @@
+.css-105cgu7 {
+  position: relative;
+  h2 {
+    font-size: 30px;
+    font-weight: 700;
+    .close-btn {
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      margin-bottom: -5px;
+      cursor: pointer;
+      border-radius: 100%;
+      padding: 5px;
+      background-color: white;
+      color: gray;
+    }
+  }
+}
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    margin-right: 20px;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: 600;
+  }
+  input {
+    width: 60%;
+    padding: 10px;
+    resize: both;
+    overflow: auto;
+    outline: none;
+    font-weight: 500;
+    font-size: 20px;
+    border-radius: 0.5em;
+  }
+}
+.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+  left: 10px;
+  width: 200px;
+}
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper.MuiMenu-paper.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+  max-height: 200px;
+  overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung vượt quá chiều cao tối đa */
+  position: absolute;
+  z-index: 1;
+}
+.box {
+  button {
+    border: 0px;
+    width: 176px;
+    height: 40px;
+    border-radius: 4px;
+    color: rgb(74, 74, 74);
+    background-color: rgb(253, 216, 53);
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 35%;
+    margin-top: 40px;
+  }
+}

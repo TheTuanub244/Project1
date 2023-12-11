@@ -19,6 +19,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [filteredItem, setFilteredItem] = useState();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const getAllItem = async () => {
     const respone = await handleGetAllItem();
@@ -68,6 +69,7 @@ export default function Home() {
   const handleChangePage = (number) => {
     const findItem = totalItem?.find((index) => index?.page == number);
     setItemDisplay(findItem?.data);
+    setLoading(true);
     setPage(number);
   };
   return (
@@ -79,7 +81,11 @@ export default function Home() {
         setItemDisplay={setItemDisplay}
       />
       <div className="container">
-        <Filterbar />
+        <Filterbar
+          allItem={item}
+          setFilteredItem={setFilteredItem}
+          setTotalPage={setTotalPage}
+        />
         {itemDisplay ? (
           <div className="card-container">
             {itemDisplay?.map((index) => (
