@@ -19,8 +19,10 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [filteredItem, setFilteredItem] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [star, setStar] = useState(null);
+  const [category, setCategory] = useState(null);
   const getAllItem = async () => {
     const respone = await handleGetAllItem();
     setItem(respone?.data?.respone?.DT);
@@ -30,7 +32,7 @@ export default function Home() {
   }, []);
   useEffect(() => {
     if (item) {
-      const pageToDisplpay = Math.ceil(item?.length / 3);
+      const pageToDisplpay = Math.ceil(item?.length / 2);
       setTotalPage(pageToDisplpay);
     }
   }, [item]);
@@ -38,13 +40,65 @@ export default function Home() {
     const getItem = item?.filter((index) =>
       index.itemName.toLowerCase().includes(search.toLowerCase())
     );
-    setFilteredItem(getItem);
-    const pageToDisplpay = Math.ceil(getItem?.length / 3);
-    setTotalPage(pageToDisplpay);
+    if (star) {
+      let getRatingFilteredItem = getItem?.filter(
+        (index) => index.totalRate == star
+      );
+      if (getRatingFilteredItem.length == 0) {
+        setLoading(false);
+        setFilteredItem(getRatingFilteredItem);
+        const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
+        setTotalPage(pageToDisplpay);
+      } else {
+        if (category) {
+          const getCategoryFilteredItem = getRatingFilteredItem?.filter(
+            (index) => index.CategoryId == category
+          );
+          if (getCategoryFilteredItem.length != 0) {
+            setFilteredItem(getCategoryFilteredItem);
+            const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
+            setTotalPage(pageToDisplpay);
+            console.log(true);
+          } else {
+            console.log(true);
+            setLoading(false);
+            setFilteredItem(getCategoryFilteredItem);
+            const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
+            setTotalPage(pageToDisplpay);
+          }
+        } else {
+          setFilteredItem(getRatingFilteredItem);
+          const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
+          setTotalPage(pageToDisplpay);
+        }
+      }
+    } else {
+      if (category) {
+        const getCategoryFilteredItem = getItem?.filter(
+          (index) => index.CategoryId == category
+        );
+        console.log(getCategoryFilteredItem);
+        console.log(getItem);
+        if (getCategoryFilteredItem.length != 0) {
+          setFilteredItem(getCategoryFilteredItem);
+          const pageToDisplpay = Math.ceil(getCategoryFilteredItem?.length / 2);
+          setTotalPage(pageToDisplpay);
+        } else {
+          setLoading(false);
+          setFilteredItem(getCategoryFilteredItem);
+          const pageToDisplpay = Math.ceil(getCategoryFilteredItem?.length / 2);
+          setTotalPage(pageToDisplpay);
+        }
+      } else {
+        setFilteredItem(getItem);
+        const pageToDisplpay = Math.ceil(getItem?.length / 2);
+        setTotalPage(pageToDisplpay);
+      }
+    }
   }, [search]);
   useEffect(() => {
     let array = [];
-    if (search == "") {
+    if (search == "" && !star) {
       for (let i = 1; i <= totalPage; i++) {
         const getItem = _.slice(item, i * i - 1, i * i + 2);
         array.push({
@@ -52,7 +106,7 @@ export default function Home() {
           data: getItem,
         });
       }
-    } else {
+    } else if (search != "") {
       for (let i = 1; i <= totalPage; i++) {
         const getItem = _.slice(filteredItem, i * i - 1, i * i + 2);
         array.push({
@@ -69,9 +123,57 @@ export default function Home() {
   const handleChangePage = (number) => {
     const findItem = totalItem?.find((index) => index?.page == number);
     setItemDisplay(findItem?.data);
-    setLoading(true);
     setPage(number);
   };
+  useEffect(() => {
+    const getFilteredItem = item?.filter((index) => index?.totalRate == star);
+    if (search == "" && category) {
+      const getCategoryFilterItem = getFilteredItem?.filter(
+        (index) => index?.CategoryId == category
+      );
+      setFilteredItem(getCategoryFilterItem);
+      const pageToDisplpay = Math.ceil(getCategoryFilterItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else if (search == "" && !category) {
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    }
+  }, [star]);
+  useEffect(() => {
+    if (star) {
+      const getFilteredItem = filteredItem?.filter(
+        (index) => index?.CategoryId == category
+      );
+      if (getFilteredItem?.length == 0) {
+        setLoading(false);
+      }
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else {
+      const getFilteredItem = item?.filter(
+        (index) => index?.CategoryId == category
+      );
+      if (getFilteredItem?.length == 0) {
+        setLoading(false);
+      }
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    }
+  }, [category]);
+  useEffect(() => {
+    let array = [];
+    for (let i = 1; i <= totalPage; i++) {
+      const getItem = _.slice(filteredItem, i * i - 1, i * i + 2);
+      array.push({
+        page: i,
+        data: getItem,
+      });
+    }
+    setTotalItem(array);
+  }, [filteredItem]);
   return (
     <>
       <Navbar
@@ -85,6 +187,10 @@ export default function Home() {
           allItem={item}
           setFilteredItem={setFilteredItem}
           setTotalPage={setTotalPage}
+          star={star}
+          setStar={setStar}
+          setCategory={setCategory}
+          category={category}
         />
         {itemDisplay ? (
           <div className="card-container">
@@ -99,8 +205,10 @@ export default function Home() {
               className="pagination"
             />
           </div>
+        ) : loading ? (
+          <p>loading...</p>
         ) : (
-          <p>Loading...</p>
+          <p>không tìm thấy sản phẩm</p>
         )}
       </div>
     </>

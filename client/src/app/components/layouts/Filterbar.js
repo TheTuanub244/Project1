@@ -10,19 +10,18 @@ import Checkbox from "@mui/material/Checkbox";
 import { Radio, RadioGroup, Rating, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ItemService, { handleGetAllItem } from "../../services/ItemService";
-const Filterbar = ({ allItem, setFilteredItem, setTotalPage }) => {
-  const [star, setStar] = useState();
+const Filterbar = ({
+  allItem,
+  setFilteredItem,
+  setTotalPage,
+  star,
+  setStar,
+  setCategory,
+  category,
+}) => {
   const handleChangeRate = (e) => {
     setStar(e.target.value);
   };
-  useEffect(() => {
-    const getFilteredItem = allItem?.filter(
-      (index) => index?.totalRate == star
-    );
-    setFilteredItem(getFilteredItem);
-    const pageToDisplpay = Math.ceil(getFilteredItem?.length / 3);
-    setTotalPage(pageToDisplpay);
-  }, [star]);
   return (
     <div className="filterbar-container">
       <div className="price-filter">
@@ -36,28 +35,33 @@ const Filterbar = ({ allItem, setFilteredItem, setTotalPage }) => {
       <div className="category-filter">
         <label>Loại mặt hàng</label>
         <div className="category-container">
-          <FormGroup>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
             <FormControlLabel
-              control={<Checkbox name="electronics" />}
+              control={<Radio name="electronics" value={1} />}
               label="Điện gia dụng"
             />
             <FormControlLabel
-              control={<Checkbox name="laptops" />}
+              control={<Radio name="laptops" value={2} />}
               label="Laptop"
             />
             <FormControlLabel
-              control={<Checkbox name="toys" />}
+              control={<Radio name="toys" value={3} />}
               label="Đồ chơi"
             />
             <FormControlLabel
-              control={<Checkbox name="office" />}
+              control={<Radio name="office" value={4} />}
               label="Đồ văn phòng"
             />
             <FormControlLabel
-              control={<Checkbox name="beauty" />}
+              control={<Radio name="beauty" value={5} />}
               label="Mỹ phẩm"
             />
-          </FormGroup>
+          </RadioGroup>
         </div>
       </div>
       <div className="rating-filter">

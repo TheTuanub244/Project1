@@ -12,6 +12,7 @@ const Navbar = ({ allItem, setSearch, itemDisplay, setItemDisplay }) => {
   const { numberProduct, cart } = useContext(CartContext);
   const [user, setUser] = useState();
   const url = usePathname();
+
   useEffect(() => {
     const checkSignIn = JSON.parse(localStorage.getItem("user"));
     setUser(checkSignIn);
@@ -34,7 +35,16 @@ const Navbar = ({ allItem, setSearch, itemDisplay, setItemDisplay }) => {
         <button>Tìm kiếm</button>
       </div>
       <div className="navbar-choices">
-        <button className="homepage" onClick={() => router.push("/")}>
+        <button
+          className="homepage"
+          onClick={() => {
+            if (url == "/") {
+              router.refresh();
+            } else {
+              router.push("/");
+            }
+          }}
+        >
           <IoHome className="icon" />
           Trang chủ
         </button>

@@ -8,7 +8,7 @@ import { getProvince } from "@/app/services/ApiService";
 import AddressModal from "@/app/components/layouts/modals/AddressModal";
 import { Button, Modal } from "react-bootstrap";
 import Navbar from "@/app/components/layouts/Navbar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 const page = () => {
   const { totalCart, addCart, minusCart, handleRemoveProduct } =
     useContext(CartContext);
@@ -22,16 +22,7 @@ const page = () => {
   const [signIn, setSignIn] = useState(false);
   const url = usePathname();
   const [user, setUser] = useState();
-  useEffect(() => {
-    const checkSignIn = localStorage.getItem("user");
-    if (!checkSignIn || Object.keys(checkSignIn).length === 0) {
-      setSignIn(false);
-    } else {
-      setSignIn(true);
-      const getUser = JSON.parse(localStorage.getItem("user"));
-      setUser(getUser);
-    }
-  }, []);
+  const router = useRouter();
   const handleShow = () => {
     setOpen(true);
   };
@@ -41,6 +32,14 @@ const page = () => {
   const handleChangeAddress = () => {
     handleShow();
   };
+  useEffect(() => {
+    const checkSignIn = JSON.parse(localStorage.getItem("user"));
+    if (!checkSignIn || Object.keys(checkSignIn).length == 0) {
+      setSignIn(false);
+    } else {
+      setSignIn(true);
+    }
+  }, []);
   useEffect(() => {
     const calPrice = totalCart?.reduce((totalPrice, currentPrice) => {
       return totalPrice + currentPrice.totalPrice;
