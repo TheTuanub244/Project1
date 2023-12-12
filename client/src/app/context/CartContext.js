@@ -7,6 +7,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [numberProduct, setNumberProduct] = useState(0);
   const [totalCart, setTotalCart] = useState([]);
+  const [checkoutInfo, setCheckoutInfo] = useState();
   const uniqueProduct = _.uniqBy(cart, "id");
   const countUniqueProduct = _.countBy(cart, "id");
   const handleAddToCart = (product) => {
@@ -60,6 +61,8 @@ export const CartProvider = ({ children }) => {
         addCart,
         minusCart,
         handleRemoveProduct,
+        checkoutInfo,
+        setCheckoutInfo,
       }}
     >
       {children}

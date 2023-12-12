@@ -18,8 +18,12 @@ const AddressModal = ({
   setSelectedProvince,
   setSelectedDistrict,
   setSelectedWard,
+  selectedWard,
+  moreAddress,
   selectedProvince,
   selecetedDistrict,
+  setMoreAddress,
+  setAddress,
 }) => {
   const style = {
     position: "absolute",
@@ -56,7 +60,15 @@ const AddressModal = ({
   useEffect(() => {
     getWardAPI(selecetedDistrict?.district_id);
   }, [selecetedDistrict]);
-
+  const handleSubmitAddress = () => {
+    setAddress({
+      moreAddress: moreAddress,
+      province: selectedProvince,
+      district: selecetedDistrict,
+      ward: selectedWard,
+    });
+    handleClose();
+  };
   return (
     <Modal
       open={open}
@@ -137,9 +149,9 @@ const AddressModal = ({
         </div>
         <div className="flex-row">
           <p>Địa chỉ: </p>
-          <input type="text" />
+          <input type="text" onChange={(e) => setMoreAddress(e.target.value)} />
         </div>
-        <button onClick={handleClose}>Thay đổi</button>
+        <button onClick={() => handleSubmitAddress()}>Thay đổi</button>
       </Box>
     </Modal>
   );

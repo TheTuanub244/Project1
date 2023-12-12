@@ -1,5 +1,6 @@
 "use client";
-
+import CartContext from "@/app/context/CartContext";
+import "@/app/styles/Shipping.scss";
 import {
   FormControlLabel,
   Radio,
@@ -7,49 +8,48 @@ import {
   Rating,
   Stack,
 } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 
 const { default: Navbar } = require("./Navbar");
 
 const Shipping = () => {
+  const [checkout, setCheckout] = useState();
+  useEffect(() => {
+    const getCheckout = JSON.parse(localStorage.getItem("checkoutInfo"));
+    setCheckout(getCheckout);
+  }, []);
+  useEffect(() => {
+    console.log(checkout);
+  }, [checkout]);
   return (
     <>
       <Navbar />
       <div className="container">
-        <Stack>
-          <h3>Thông tin giao hàng</h3>
-          <div className="radio-box">
-            <RadioGroup
-              aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              className="radio-group"
-            >
+        <Stack className="stack">
+          <h2>Thông tin giao hàng</h2>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            className="radio-group"
+          >
+            {checkout && (
               <FormControlLabel
+                className="address-box"
                 value={5}
                 control={<Radio />}
-                label={<Rating name="read-only" value={5} readOnly />}
+                label={
+                  <div className="address-info">
+                    <h3>{checkout?.address?.moreAddress}</h3>
+                    <p>
+                      {checkout?.address?.ward?.ward_name},{" "}
+                      {checkout?.address?.district?.district_name},{" "}
+                      {checkout?.address?.province?.province_name}
+                    </p>
+                  </div>
+                }
               />
-              <FormControlLabel
-                value={4}
-                control={<Radio />}
-                label={<Rating name="read-only" value={4} readOnly />}
-              />
-              <FormControlLabel
-                value={3}
-                control={<Radio />}
-                label={<Rating name="read-only" value={3} readOnly />}
-              />
-              <FormControlLabel
-                value={2}
-                control={<Radio />}
-                label={<Rating name="read-only" value={2} readOnly />}
-              />
-              <FormControlLabel
-                value={1}
-                control={<Radio />}
-                label={<Rating name="read-only" value={1} readOnly />}
-              />
-            </RadioGroup>
-          </div>
+            )}
+          </RadioGroup>
         </Stack>
       </div>
     </>

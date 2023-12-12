@@ -10,12 +10,17 @@ import { Button, Modal } from "react-bootstrap";
 import Navbar from "@/app/components/layouts/Navbar";
 import { usePathname, useRouter } from "next/navigation";
 const page = () => {
-  const { totalCart, addCart, minusCart, handleRemoveProduct } =
-    useContext(CartContext);
+  const {
+    totalCart,
+    addCart,
+    minusCart,
+    handleRemoveProduct,
+    setCheckoutInfo,
+  } = useContext(CartContext);
   const [selectedProvince, setSelectedProvince] = useState();
   const [selecetedDistrict, setSelectedDistrict] = useState();
   const [selectedWard, setSelectedWard] = useState();
-  const [ward, setWard] = useState();
+  const [moreAddress, setMoreAddress] = useState();
   const [address, setAddress] = useState();
   const [totalCheckOut, setTotalCheckOut] = useState({});
   const [open, setOpen] = useState(false);
@@ -37,6 +42,7 @@ const page = () => {
     if (!checkSignIn || Object.keys(checkSignIn).length == 0) {
       setSignIn(false);
     } else {
+      setUser(checkSignIn);
       setSignIn(true);
     }
   }, []);
@@ -56,15 +62,19 @@ const page = () => {
     if (signIn == false) {
       localStorage.setItem("callbackURL", JSON.stringify(url));
       router.push("/login");
+    } else {
+      localStorage.setItem(
+        "checkoutInfo",
+        JSON.stringify({
+          totalCheckOut: totalCheckOut,
+          totalCart: totalCart,
+          user: user,
+          address: address,
+        })
+      );
+      router.push("/shipping");
     }
   };
-  useEffect(() => {
-    setAddress({
-      province: selectedProvince?.province_name,
-      district: selecetedDistrict?.district_name,
-      ward: selectedWard?.ward_name,
-    });
-  }, [selectedWard]);
   return (
     <>
       <Navbar />
@@ -130,7 +140,9 @@ const page = () => {
                 )}
                 {address?.ward && (
                   <p>
-                    {address?.ward}, {address?.district}, {address?.province}
+                    {address?.ward?.ward_name},{" "}
+                    {address?.district?.district_name},{" "}
+                    {address?.province?.province_name}
                   </p>
                 )}
               </div>
@@ -175,6 +187,10 @@ const page = () => {
           setSelectedWard={setSelectedWard}
           selectedProvince={selectedProvince}
           selecetedDistrict={selecetedDistrict}
+          selectedWard={selectedWard}
+          moreAddress={moreAddress}
+          setMoreAddress={setMoreAddress}
+          setAddress={setAddress}
         />
       </div>
     </>
