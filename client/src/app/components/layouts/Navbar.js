@@ -7,6 +7,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import CartContext from "@/app/context/CartContext";
 import { handleGetAllItem } from "@/app/services/ItemService";
+import { Button } from "react-bootstrap";
+import Dropdown from "../auth/Dropdown";
+import SignInDropDown from "../auth/Dropdown";
+
 const Navbar = ({ allItem, setSearch, itemDisplay, setItemDisplay }) => {
   const router = useRouter();
   const { numberProduct, cart } = useContext(CartContext);
@@ -49,12 +53,9 @@ const Navbar = ({ allItem, setSearch, itemDisplay, setItemDisplay }) => {
           Trang chủ
         </button>
         {user ? (
-          <button className="sign-in">
-            <CiUser className="icon" />
-            {user?.firstName} {user?.lastName}
-          </button>
+          <SignInDropDown className="sign-in" userName={user?.firstName} />
         ) : (
-          <button className="sign-in" onClick={() => handleLogin()}>
+          <button onClick={() => handleLogin()}>
             <CiUser className="icon" />
             Đăng nhập
           </button>

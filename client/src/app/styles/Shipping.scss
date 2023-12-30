@@ -24,7 +24,7 @@
         border-radius: 4px;
         background-color: rgb(244, 249, 252);
         .address-info {
-          padding: 3px;
+          text-align: start;
         }
       }
     }
@@ -117,5 +117,15 @@
         font-size: 18px;
       }
     }
+  }
+}
+.payment-method {
+  margin-left: 12%;
+  border: 1px solid rgb(181, 181, 184);
+  border-radius: 4px;
+  width: 40%;
+  padding-left: 20px;
+  h4 {
+    font-size: 20px;
   }
 }

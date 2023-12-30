@@ -23,6 +23,8 @@ export default function Home() {
   const router = useRouter();
   const [star, setStar] = useState(null);
   const [category, setCategory] = useState(null);
+  const [min, setMin] = useState();
+  const [max, setMax] = useState();
   const getAllItem = async () => {
     const respone = await handleGetAllItem();
     setItem(respone?.data?.respone?.DT);
@@ -31,74 +33,8 @@ export default function Home() {
     getAllItem();
   }, []);
   useEffect(() => {
-    if (item) {
-      const pageToDisplpay = Math.ceil(item?.length / 2);
-      setTotalPage(pageToDisplpay);
-    }
-  }, [item]);
-  useEffect(() => {
-    const getItem = item?.filter((index) =>
-      index.itemName.toLowerCase().includes(search.toLowerCase())
-    );
-    if (star) {
-      let getRatingFilteredItem = getItem?.filter(
-        (index) => index.totalRate == star
-      );
-      if (getRatingFilteredItem.length == 0) {
-        setLoading(false);
-        setFilteredItem(getRatingFilteredItem);
-        const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
-        setTotalPage(pageToDisplpay);
-      } else {
-        if (category) {
-          const getCategoryFilteredItem = getRatingFilteredItem?.filter(
-            (index) => index.CategoryId == category
-          );
-          if (getCategoryFilteredItem.length != 0) {
-            setFilteredItem(getCategoryFilteredItem);
-            const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
-            setTotalPage(pageToDisplpay);
-            console.log(true);
-          } else {
-            console.log(true);
-            setLoading(false);
-            setFilteredItem(getCategoryFilteredItem);
-            const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
-            setTotalPage(pageToDisplpay);
-          }
-        } else {
-          setFilteredItem(getRatingFilteredItem);
-          const pageToDisplpay = Math.ceil(getRatingFilteredItem?.length / 2);
-          setTotalPage(pageToDisplpay);
-        }
-      }
-    } else {
-      if (category) {
-        const getCategoryFilteredItem = getItem?.filter(
-          (index) => index.CategoryId == category
-        );
-        console.log(getCategoryFilteredItem);
-        console.log(getItem);
-        if (getCategoryFilteredItem.length != 0) {
-          setFilteredItem(getCategoryFilteredItem);
-          const pageToDisplpay = Math.ceil(getCategoryFilteredItem?.length / 2);
-          setTotalPage(pageToDisplpay);
-        } else {
-          setLoading(false);
-          setFilteredItem(getCategoryFilteredItem);
-          const pageToDisplpay = Math.ceil(getCategoryFilteredItem?.length / 2);
-          setTotalPage(pageToDisplpay);
-        }
-      } else {
-        setFilteredItem(getItem);
-        const pageToDisplpay = Math.ceil(getItem?.length / 2);
-        setTotalPage(pageToDisplpay);
-      }
-    }
-  }, [search]);
-  useEffect(() => {
     let array = [];
-    if (search == "" && !star) {
+    if (search == "" && !star && !category && !max && !min) {
       for (let i = 1; i <= totalPage; i++) {
         const getItem = _.slice(item, i * i - 1, i * i + 2);
         array.push({
@@ -106,7 +42,8 @@ export default function Home() {
           data: getItem,
         });
       }
-    } else if (search != "") {
+      console.log(item);
+    } else {
       for (let i = 1; i <= totalPage; i++) {
         const getItem = _.slice(filteredItem, i * i - 1, i * i + 2);
         array.push({
@@ -116,7 +53,7 @@ export default function Home() {
       }
     }
     setTotalItem(array);
-  }, [totalPage]);
+  }, [totalPage, item]);
   useEffect(() => {
     handleChangePage(page);
   }, [totalItem]);
@@ -126,43 +63,153 @@ export default function Home() {
     setPage(number);
   };
   useEffect(() => {
-    const getFilteredItem = item?.filter((index) => index?.totalRate == star);
-    if (search == "" && category) {
-      const getCategoryFilterItem = getFilteredItem?.filter(
-        (index) => index?.CategoryId == category
-      );
-      setFilteredItem(getCategoryFilterItem);
-      const pageToDisplpay = Math.ceil(getCategoryFilterItem?.length / 2);
-      setTotalPage(pageToDisplpay);
-    } else if (search == "" && !category) {
-      setFilteredItem(getFilteredItem);
-      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
-      setTotalPage(pageToDisplpay);
-    }
-  }, [star]);
-  useEffect(() => {
-    if (star) {
-      const getFilteredItem = filteredItem?.filter(
-        (index) => index?.CategoryId == category
-      );
-      if (getFilteredItem?.length == 0) {
-        setLoading(false);
-      }
-      setFilteredItem(getFilteredItem);
-      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
-      setTotalPage(pageToDisplpay);
-    } else {
+    if (category && !star & (search == "") && !max && !min) {
       const getFilteredItem = item?.filter(
         (index) => index?.CategoryId == category
       );
-      if (getFilteredItem?.length == 0) {
-        setLoading(false);
-      }
       setFilteredItem(getFilteredItem);
       const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
       setTotalPage(pageToDisplpay);
+    } else if (!category && star && search == "" && !max && !min) {
+      const getFilteredItem = item?.filter((index) => index?.totalRate == star);
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else if (!category && !star && search == "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) => index?.oldPrice <= max && index?.oldPrice >= min
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else if (category && star && search == "" && !max && !min) {
+      const getFilteredItem = item?.filter(
+        (index) => index?.totalRate == star && index?.CategoryId == category
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else if (category && !star && search == "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index?.CategoryId == category &&
+          index?.oldPrice <= max &&
+          index?.oldValue >= min
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else if (!category && star && search == "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index?.totalRate == star &&
+          index?.oldPrice <= max &&
+          index?.oldValue >= min
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+    } else if (category && star && search == "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index?.totalRate == star &&
+          index?.oldPrice <= parseFloat(max) &&
+          index?.oldValue >= parseFloat(min) &&
+          index?.CategoryId == category
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (!category && !star && search != "" && !max && !min) {
+      const getFilteredItem = item?.filter((index) =>
+        index.itemName.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (category && !star && search != "" && !max && !min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index.CategoryId == category
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (!category && star && search != "" && !max && !min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index.totalRate == star
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (!category && !star && search != "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index?.oldPrice <= parseFloat(max) &&
+          index?.oldValue >= parseFloat(min)
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (category && star && search != "" && !max && !min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index.totalRate == star &&
+          index.CategoryId == category
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (!category && star && search != "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index.totalRate == star &&
+          index?.oldPrice <= parseFloat(max) &&
+          index?.oldValue >= parseFloat(min)
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (category && !star && search != "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index.CategoryId == category &&
+          index?.oldPrice <= parseFloat(max) &&
+          index?.oldValue >= parseFloat(min)
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
+    } else if (category && star && search != "" && max && min) {
+      const getFilteredItem = item?.filter(
+        (index) =>
+          index.itemName.toLowerCase().includes(search.toLowerCase()) &&
+          index.CategoryId == category &&
+          index?.oldPrice <= parseFloat(max) &&
+          index?.oldValue >= parseFloat(min) &&
+          index.totalRate == star
+      );
+      setFilteredItem(getFilteredItem);
+      const pageToDisplpay = Math.ceil(getFilteredItem?.length / 2);
+      setTotalPage(pageToDisplpay);
+      console.log(getFilteredItem);
     }
-  }, [category]);
+  }, [max, min, star, category, search]);
   useEffect(() => {
     let array = [];
     for (let i = 1; i <= totalPage; i++) {
@@ -184,13 +231,14 @@ export default function Home() {
       />
       <div className="container">
         <Filterbar
-          allItem={item}
-          setFilteredItem={setFilteredItem}
-          setTotalPage={setTotalPage}
           star={star}
           setStar={setStar}
           setCategory={setCategory}
           category={category}
+          min={min}
+          max={max}
+          setMin={setMin}
+          setMax={setMax}
         />
         {itemDisplay ? (
           <div className="card-container">

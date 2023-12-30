@@ -16,7 +16,6 @@ const { default: Navbar } = require("./Navbar");
 
 const Shipping = () => {
   const [checkout, setCheckout] = useState();
-  const [totalAddress, setTotalAddress] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedProvince, setSelectedProvince] = useState();
   const [selecetedDistrict, setSelectedDistrict] = useState();
@@ -24,6 +23,7 @@ const Shipping = () => {
   const [moreAddress, setMoreAddress] = useState();
   const [address, setAddress] = useState();
   const [addedAddress, setAddedAddress] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState();
   useEffect(() => {
     const getCheckout = JSON.parse(localStorage.getItem("checkoutInfo"));
     setCheckout(getCheckout);
@@ -31,14 +31,13 @@ const Shipping = () => {
   useEffect(() => {
     setAddedAddress([...addedAddress, address]);
   }, [address]);
-  useEffect(() => {
-    console.log(addedAddress);
-    console.log(checkout?.address?.ward?.ward_id);
-  }, [addedAddress]);
 
   const handleClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    console.log(addedAddress);
+  }, [addedAddress]);
   return (
     <>
       <Navbar />
@@ -74,23 +73,23 @@ const Shipping = () => {
             )}
             {addedAddress &&
               addedAddress?.map(
-                (index) =>
-                  index != undefined && (
+                (address, index) =>
+                  address != undefined && (
                     <FormControlLabel
                       className="address-box"
-                      value={index?.ward?.ward_id}
+                      value={index}
                       control={<Radio />}
                       label={
                         <div className="address-info">
-                          <h3>{index?.moreAddress}</h3>
+                          <h3>{address?.moreAddress} </h3>
                           <p
                             style={{
                               marginTop: -20,
                             }}
                           >
-                            {index?.ward?.ward_name},{" "}
-                            {index?.district?.district_name},{" "}
-                            {index?.province?.province_name}
+                            {address?.ward?.ward_name},{" "}
+                            {address?.district?.district_name},{" "}
+                            {address?.province?.province_name}
                           </p>
                         </div>
                       }
@@ -98,7 +97,13 @@ const Shipping = () => {
                   )
               )}
           </RadioGroup>
-          <button className="add-new" onClick={() => setOpen(true)}>
+          <button
+            className="add-new"
+            onClick={() => {
+              setSelectedDistrict();
+              setOpen(true);
+            }}
+          >
             {" "}
             <FaPlus /> Thêm địa chỉ khác
           </button>
@@ -119,7 +124,9 @@ const Shipping = () => {
                 <div className="shipping-item-detail">
                   <p>{index.data.itemName}</p>
                   <p>
-                    Total: {index.totalPrice}
+                    Total:{" "}
+                    {typeof index.totalPrice === "number" &&
+                      index.totalPrice.toLocaleString("en-US")}
                     <sup>₫</sup>
                   </p>
                 </div>
@@ -128,11 +135,32 @@ const Shipping = () => {
           <div className="total-checkout">
             <p>Tổng tiền: </p>
             <p>
-              {checkout?.totalCheckOut?.totalPrice}
+              {typeof checkout?.totalCheckOut?.totalPrice === "number" &&
+                checkout?.totalCheckOut?.totalPrice.toLocaleString("en-US")}
               <sup>₫</sup>
             </p>
           </div>
         </Stack>
+      </div>
+      <div className="payment-method">
+        <h4>Phương thức thanh toán</h4>
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={paymentMethod}
+          onChange={(e) => setPaymentMethod(e.target.value)}
+        >
+          <FormControlLabel
+            className="payment-method-bõ"
+            value={paymentMethod}
+            control={<Radio />}
+            label={
+              <div className="address-info">
+                <p>Thanh toán tiền mặt khi nhận hàng</p>
+              </div>
+            }
+          />
+        </RadioGroup>
       </div>
       <AddressModal
         open={open}

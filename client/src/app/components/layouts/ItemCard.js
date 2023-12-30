@@ -3,10 +3,11 @@ import CartContext from "@/app/context/CartContext";
 import "@/app/styles/ItemCard.scss";
 import { Rating } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 const ItemCard = ({ item }) => {
   const router = useRouter();
   const { cart, handleAddToCart } = useContext(CartContext);
+
   return (
     <>
       <div className="card">
@@ -29,7 +30,11 @@ const ItemCard = ({ item }) => {
           <p>{item?.description}</p>
         </div>
         <div className="item-checkout">
-          <h4>{item?.oldPrice}đ</h4>
+          <h4>
+            {typeof item?.oldPrice === "number" &&
+              item?.oldPrice.toLocaleString("en-US")}
+            đ
+          </h4>
           <p>Miễn phí giao hàng</p>
           <button onClick={() => handleAddToCart(item)}>
             Thêm vào giỏ hàng

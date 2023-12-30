@@ -1,0 +1,32 @@
+.review-card-container {
+  border: 1px solid rgb(206, 206, 206);
+  width: 25%;
+  padding-left: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 3px 5px 3px rgb(181, 181, 184);
+
+  .card-header {
+    h4 {
+      font-size: 20px;
+    }
+    p {
+      margin-top: -20px;
+      font-size: 15px;
+      font-weight: 400;
+    }
+  }
+  .card-body {
+    .rate {
+      display: flex;
+      p {
+        font-size: 18px;
+        margin-top: 2px;
+        margin-left: 5px;
+      }
+    }
+    p {
+      font-size: 20px;
+      margin-top: 0;
+    }
+  }
+}

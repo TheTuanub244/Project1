@@ -9,6 +9,9 @@ const getAllItem = async (id) => {
           where: {
             id: id,
           },
+          attributes: {
+            exclude: ["ReviewId"],
+          },
           raw: true,
         });
         if (item) {
@@ -26,6 +29,9 @@ const getAllItem = async (id) => {
       } else {
         const item = await db.Item.findAll({
           raw: true,
+          attributes: {
+            exclude: ["ReviewId"],
+          },
         });
         respone = {
           EC: 0,
@@ -39,6 +45,22 @@ const getAllItem = async (id) => {
     }
   });
 };
+const getAllReviewsByProduct = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const respone = await db.Review.findAll({
+        where: {
+          itemID: id,
+        },
+        include: [db.User],
+      });
+      resolve(respone);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getAllItem: getAllItem,
+  getAllReviewsByProduct: getAllReviewsByProduct,
 };

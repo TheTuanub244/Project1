@@ -1,7 +1,7 @@
 "use client";
 import CartContext from "@/app/context/CartContext";
 import { Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "@/app/styles/Cart.scss";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { getProvince } from "@/app/services/ApiService";
@@ -28,6 +28,7 @@ const page = () => {
   const url = usePathname();
   const [user, setUser] = useState();
   const router = useRouter();
+  const addressWarning = useRef();
   const handleShow = () => {
     setOpen(true);
   };
@@ -63,16 +64,21 @@ const page = () => {
       localStorage.setItem("callbackURL", JSON.stringify(url));
       router.push("/login");
     } else {
-      localStorage.setItem(
-        "checkoutInfo",
-        JSON.stringify({
-          totalCheckOut: totalCheckOut,
-          totalCart: totalCart,
-          user: user,
-          address: address,
-        })
-      );
-      router.push("/shipping");
+      if (address == null) {
+        addressWarning.current.classList.add("address-warning");
+        addressWarning.current.classList.remove("address");
+      } else {
+        localStorage.setItem(
+          "checkoutInfo",
+          JSON.stringify({
+            totalCheckOut: totalCheckOut,
+            totalCart: totalCart,
+            user: user,
+            address: address,
+          })
+        );
+        router.push("/shipping");
+      }
     }
   };
   return (
@@ -100,10 +106,15 @@ const page = () => {
                   </div>
                   <div className="item-price">
                     <h4>
-                      {index?.totalPrice}
+                      {typeof index?.totalPrice === "number" &&
+                        index?.totalPrice.toLocaleString("en-US")}
                       <sup>₫</sup>
                     </h4>
-                    <p>{index?.data?.oldPrice}/sản phẩm</p>
+                    <p>
+                      {typeof index?.data?.oldPrice === "number" &&
+                        index?.data?.oldPrice.toLocaleString("en-US")}
+                      /sản phẩm
+                    </p>
                   </div>
                   <button
                     className="remove-btn"
@@ -115,7 +126,15 @@ const page = () => {
               ))}
             </div>
           ) : (
-            <h4>Không có sản phẩm nào trong giỏ hàng</h4>
+            <h4
+              style={{
+                marginLeft: 400,
+                fontSize: 30,
+                marginTop: 200,
+              }}
+            >
+              Không có sản phẩm nào trong giỏ hàng
+            </h4>
           )}
           <div className="check-btn-container">
             <div className="checkout-container">
@@ -131,6 +150,7 @@ const page = () => {
                     style={{
                       color: "black",
                       fontWeight: 600,
+                      marginTop: 20,
                     }}
                   >
                     {user.firstName} {user.lastName}
@@ -138,11 +158,15 @@ const page = () => {
                 ) : (
                   <p></p>
                 )}
-                {address?.ward && (
+                {address?.ward ? (
                   <p>
                     {address?.ward?.ward_name},{" "}
                     {address?.district?.district_name},{" "}
                     {address?.province?.province_name}
+                  </p>
+                ) : (
+                  <p ref={addressWarning} className="address">
+                    Vui lòng nhập địa chỉ
                   </p>
                 )}
               </div>
@@ -150,7 +174,8 @@ const page = () => {
                 <div className="flex-row">
                   <label>Tạm tính: </label>
                   <p>
-                    {totalCheckOut?.totalPrice}
+                    {typeof totalCheckOut?.totalPrice === "number" &&
+                      totalCheckOut?.totalPrice.toLocaleString("en-US")}
                     <sup>₫</sup>
                   </p>
                 </div>
@@ -161,7 +186,7 @@ const page = () => {
                 <div className="flex-row">
                   <label>Giảm giá: </label>
                   <p>
-                    0<sup>₫</sup>
+                    <sup>₫</sup>
                   </p>
                 </div>
               </div>
@@ -169,7 +194,9 @@ const page = () => {
                 <div className="flex-row">
                   <label>Tổng tiền: </label>
                   <p>
-                    {totalCheckOut?.totalPrice} <sup>₫</sup>
+                    {typeof totalCheckOut?.totalPrice === "number" &&
+                      totalCheckOut?.totalPrice.toLocaleString("en-US")}{" "}
+                    <sup>₫</sup>
                   </p>
                 </div>
               </div>

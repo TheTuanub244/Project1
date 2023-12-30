@@ -10,7 +10,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 const AddressModal = ({
   open,
@@ -69,6 +69,10 @@ const AddressModal = ({
     });
     handleClose();
   };
+  useEffect(() => {
+    console.log(selecetedDistrict);
+    console.log(selectedProvince);
+  }, [open]);
   return (
     <Modal
       open={open}
@@ -111,7 +115,7 @@ const AddressModal = ({
           <p>Quận/Huyện: </p>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
             <Select
-              value={selectedProvince}
+              value={selecetedDistrict}
               defaultValue=""
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
@@ -131,7 +135,7 @@ const AddressModal = ({
           <p>Phường/Xã: </p>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
             <Select
-              value={selectedProvince}
+              value={selectedWard}
               defaultValue=""
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}

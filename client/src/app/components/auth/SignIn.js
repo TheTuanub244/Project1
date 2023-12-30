@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { handleSignIn } from "@/app/services/UserService";
 import UserService from "@/app/services/UserService";
 import { useRouter } from "next/navigation";
+import Navbar from "../layouts/Navbar";
 const SignIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -17,7 +18,6 @@ const SignIn = () => {
   const signIn = async () => {
     setSignInFlag(true);
     const getRespone = await handleSignIn(email, password);
-    console.log(getRespone);
     setRespone(getRespone?.data?.respone);
     if (getRespone?.data?.respone?.EC == 0) {
       localStorage.setItem(
@@ -50,53 +50,58 @@ const SignIn = () => {
     emailRef.current.classList.add("hidden-div");
   }, []);
   return (
-    <Stack className="login-dialog">
-      <h3>Đăng nhập</h3>
-      <p>Email</p>
-      <input
-        type="email"
-        placeholder="Địa chỉ email"
-        onChange={(e) => setEmail(e.target.value)}
-        className={signInFlag ? (email ? "" : "invalid-input") : ""}
-      ></input>
-      <div
-        ref={emailRef}
-        className={signInFlag ? (email ? "hidden-div" : "error") : "hidden-div"}
-      >
-        {respone?.EC == 1 ? (
-          <p>{respone?.EM}</p>
-        ) : (
-          respone?.EC == 3 && <p>{respone?.EM1}</p>
-        )}
-      </div>
-      <p>Mật khẩu</p>
-      <input
-        type="password"
-        placeholder="Mật khẩu"
-        onChange={(e) => setPassword(e.target.value)}
-        className={signInFlag ? (password ? "" : "invalid-input") : ""}
-      />
-      <div
-        ref={passRef}
-        className={
-          signInFlag ? (password ? "hidden-div" : "error") : "hidden-div"
-        }
-      >
-        {respone?.EC == 2 ? (
-          <p>{respone?.EM}</p>
-        ) : (
-          respone?.EC == 3 && <p>{respone?.EM2}</p>
-        )}
-      </div>
-      <div className="signin-btn">
-        <button onClick={() => signIn()}>Đăng nhập</button>
-      </div>
-      <div className="seperator" />
-      <div className="register-container">
-        <p>Chưa có tài khoản? </p>
-        <p className="register-btn">Đăng ký</p>
-      </div>
-    </Stack>
+    <>
+      <Navbar />
+      <Stack className="login-dialog">
+        <h3>Đăng nhập</h3>
+        <p>Email</p>
+        <input
+          type="email"
+          placeholder="Địa chỉ email"
+          onChange={(e) => setEmail(e.target.value)}
+          className={signInFlag ? (email ? "" : "invalid-input") : ""}
+        ></input>
+        <div
+          ref={emailRef}
+          className={
+            signInFlag ? (email ? "hidden-div" : "error") : "hidden-div"
+          }
+        >
+          {respone?.EC == 1 ? (
+            <p>{respone?.EM}</p>
+          ) : (
+            respone?.EC == 3 && <p>{respone?.EM1}</p>
+          )}
+        </div>
+        <p>Mật khẩu</p>
+        <input
+          type="password"
+          placeholder="Mật khẩu"
+          onChange={(e) => setPassword(e.target.value)}
+          className={signInFlag ? (password ? "" : "invalid-input") : ""}
+        />
+        <div
+          ref={passRef}
+          className={
+            signInFlag ? (password ? "hidden-div" : "error") : "hidden-div"
+          }
+        >
+          {respone?.EC == 2 ? (
+            <p>{respone?.EM}</p>
+          ) : (
+            respone?.EC == 3 && <p>{respone?.EM2}</p>
+          )}
+        </div>
+        <div className="signin-btn">
+          <button onClick={() => signIn()}>Đăng nhập</button>
+        </div>
+        <div className="seperator" />
+        <div className="register-container">
+          <p>Chưa có tài khoản? </p>
+          <p className="register-btn">Đăng ký</p>
+        </div>
+      </Stack>
+    </>
   );
 };
 export default SignIn;

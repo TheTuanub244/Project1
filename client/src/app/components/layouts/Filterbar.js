@@ -8,28 +8,35 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import Checkbox from "@mui/material/Checkbox";
 import { Radio, RadioGroup, Rating, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ItemService, { handleGetAllItem } from "../../services/ItemService";
 const Filterbar = ({
-  allItem,
-  setFilteredItem,
-  setTotalPage,
   star,
   setStar,
   setCategory,
   category,
+  min,
+  max,
+  setMin,
+  setMax,
 }) => {
   const handleChangeRate = (e) => {
     setStar(e.target.value);
+  };
+  const minRef = useRef();
+  const maxRef = useRef();
+  const handleSubmitFilterCost = () => {
+    setMin(minRef.current.value);
+    setMax(maxRef.current.value);
   };
   return (
     <div className="filterbar-container">
       <div className="price-filter">
         <label>Giá tiền </label>
         <div className="filter-choices">
-          <input placeholder="Min"></input>
-          <input placeholder="Max"></input>
-          <Button>Tìm kiếm</Button>
+          <input placeholder="Min" ref={minRef}></input>
+          <input placeholder="Max" ref={maxRef}></input>
+          <Button onClick={() => handleSubmitFilterCost()}>Tìm kiếm</Button>
         </div>
       </div>
       <div className="category-filter">

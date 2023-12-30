@@ -1,11 +1,15 @@
+@import "~bootstrap/scss/bootstrap";
 .container {
   width: 100%;
   margin-top: 40px;
   display: flex;
   max-height: 100%;
+  margin-left: 10%;
+  margin-right: 0;
   .card-container {
     margin-left: 40px;
     width: 60%;
+    margin-right: 0;
     .pagination {
       margin-top: 2%;
       margin-left: 40%;

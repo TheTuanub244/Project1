@@ -22,6 +22,9 @@
       .item-name {
         margin-left: 2%;
         width: 40%;
+        p {
+          margin-top: 15px;
+        }
         h4 {
           font-size: 20px;
           margin-bottom: -10px;
@@ -36,13 +39,21 @@
         align-items: center;
         border-radius: 10px;
         background-color: rgb(181, 181, 184);
-        margin-top: 1.8em;
+        margin-top: 20px;
         button {
           background-color: transparent;
           width: 70px;
           height: 70px;
           border: none;
           cursor: pointer;
+        }
+        button:hover {
+          background-color: #5a5a5a;
+          border-radius: 10px;
+        }
+        button:active {
+          background-color: #333333;
+          border-radius: 10px;
         }
         label {
           width: 15%;
@@ -70,14 +81,20 @@
         border-radius: 10px;
         font-size: 20px;
         border: 1px solid rgb(181, 181, 184);
-        margin-top: 1.4rem;
+        margin-top: 30px;
         cursor: pointer;
+      }
+      .remove-btn:hover {
+        background-color: #c4c4c4;
+      }
+      .remove-btn:active {
+        background-color: #8d8d8d;
       }
     }
   }
   .check-btn-container {
     width: 20%;
-    margin-left: 2%;
+    margin-left: 100px;
     display: flex;
     flex-direction: column;
     .checkout-container {
@@ -88,6 +105,14 @@
       .shipping-container {
         width: 100%;
         border-bottom: 1px solid rgb(181, 181, 184);
+        .address {
+          display: none;
+        }
+        .address-warning {
+          display: contents;
+          font-size: 20px;
+          color: red;
+        }
         .shipping-header {
           display: flex;
           justify-content: space-between;
