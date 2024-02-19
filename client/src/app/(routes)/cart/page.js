@@ -160,9 +160,7 @@ const page = () => {
                 )}
                 {address?.ward ? (
                   <p>
-                    {address?.ward?.ward_name},{" "}
-                    {address?.district?.district_name},{" "}
-                    {address?.province?.province_name}
+                    {address?.ward}, {address?.district}, {address?.province}
                   </p>
                 ) : (
                   <p ref={addressWarning} className="address">

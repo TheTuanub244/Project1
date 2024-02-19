@@ -3,39 +3,71 @@
 import {
   handleGetAllItem,
   handleGetAllReviewsByProduct,
+  handleGetProductById,
 } from "@/app/services/ItemService";
 import { useContext, useEffect, useState } from "react";
 import "@/app/styles/ItemDetails.scss";
 import { Stack } from "react-bootstrap";
-import { Rating, Typography } from "@mui/material";
+import { Pagination, Rating, Typography } from "@mui/material";
 import { LuShoppingCart } from "react-icons/lu";
 import { CiSquarePlus } from "react-icons/ci";
 import CartContext from "@/app/context/CartContext";
 import Navbar from "@/app/components/layouts/Navbar";
 import ReviewCard from "@/app/components/layouts/ReviewCard";
+import { handleAddReview } from "@/app/services/UserService";
+import { useRouter } from "next/navigation";
 const page = ({ params }) => {
   const [item, setItem] = useState();
   const [largImage, setLargeImage] = useState();
   const [reviews, setReviews] = useState();
+  const [totalPage, setTotalPage] = useState();
+  const [page, setPage] = useState(1);
+  const [rate, setRate] = useState();
+  const [review, setReview] = useState();
+  const router = useRouter();
   const getItem = async () => {
-    const respone = await handleGetAllItem(params.id);
-    setItem(respone?.data?.respone?.DT[0]);
+    const respone = await handleGetProductById(params.id);
+    setItem(respone?.data?.respone);
   };
+  useEffect(() => {
+    console.log(item);
+  }, [item]);
   const { handleAddToCart } = useContext(CartContext);
   useEffect(() => {
     getItem();
-    getReviews();
-  }, []);
-  const getReviews = async () => {
-    const respone = await handleGetAllReviewsByProduct(1);
+    getReviews(page);
+  }, [page]);
+  const getReviews = async (page) => {
+    const respone = await handleGetAllReviewsByProduct({ page, id: params.id });
+    setReviews(respone?.data?.respone?.data);
+    setTotalPage(respone?.data?.respone?.amount);
+    console.log(respone);
+  };
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+  const handleSubmitReview = async () => {
+    const userID = JSON.parse(localStorage.getItem("user"))?.id;
+    const itemId = parseInt(params.id);
+    const respone = await handleAddReview(
+      parseInt(userID),
+      review,
+      rate,
+      itemId
+    );
     setReviews(respone?.data?.respone);
+  };
+  const handleBuyNow = () => {
+    localStorage.removeItem("productCart");
+    handleAddToCart(item);
+    router.push("/cart");
   };
   return (
     <>
       <Navbar />
       {item ? (
         <>
-          <div className="container">
+          <div className="item-container">
             <div className="left-container">
               <div className="large-image">
                 <img src={largImage ? largImage : item?.image1} />
@@ -100,7 +132,7 @@ const page = ({ params }) => {
                     <LuShoppingCart className="icon" />
                     Thêm vào giỏ hàng
                   </button>
-                  <button className="buy">
+                  <button className="buy" onClick={() => handleBuyNow()}>
                     <CiSquarePlus className="icon" />
                     Mua ngay
                   </button>
@@ -128,7 +160,7 @@ const page = ({ params }) => {
                   )}
                 </div>
                 <div className="flex">
-                  <h4>Loại hàng: </h4>
+                  <h4>Loại hàng: {item?.Category?.categoryName}</h4>
                   <p>{item?.categoryId}</p>
                 </div>
                 <div className="flex">
@@ -143,18 +175,48 @@ const page = ({ params }) => {
             <div className="review-item-card">
               {reviews?.map((index) => (
                 <ReviewCard
-                  avatar={index.User.avatar}
-                  userName={index.User.username}
-                  createdDate={index.createdAt}
-                  rate={index.rate}
-                  description={index.description}
+                  avatar={index?.User?.avatar}
+                  userName={index?.User?.username}
+                  createdDate={index?.createdAt}
+                  rate={index?.rate}
+                  description={index?.description}
                 />
               ))}
+            </div>
+            <Pagination
+              count={totalPage}
+              size="large"
+              page={page}
+              onChange={handleChangePage}
+              className="pagination"
+            />
+            <h3>Viêt đánh giá</h3>
+            <div className="write-review">
+              <p>
+                Tên người dùng:{" "}
+                {JSON.parse(localStorage.getItem("user"))?.firstName}
+              </p>
+              <div className="write-container">
+                <Rating
+                  name="simple-controlled"
+                  value={rate}
+                  className="rating"
+                  onChange={(event, newValue) => {
+                    setRate(newValue);
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Nhận xét sản phẩm"
+                  onChange={(e) => setReview(e.target.value)}
+                />
+                <button onClick={() => handleSubmitReview()}>Đánh giá</button>
+              </div>
             </div>
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <h4 className="loading">Loading...</h4>
       )}
     </>
   );

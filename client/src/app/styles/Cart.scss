@@ -10,6 +10,7 @@
     width: 55%;
     height: fit-content;
     flex-direction: column;
+    background-color: white;
     .item-container {
       width: 98%;
       padding: 10px;
@@ -66,6 +67,7 @@
       .item-price {
         margin-left: 3%;
         width: 15%;
+
         h4 {
           margin-bottom: -5px;
           margin-top: 25px;
@@ -101,6 +103,8 @@
       border: 1px solid rgb(181, 181, 184);
       border-radius: 10px;
       padding: 20px;
+      background-color: white;
+
       width: 100%;
       .shipping-container {
         width: 100%;

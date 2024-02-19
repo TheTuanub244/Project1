@@ -11,6 +11,8 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import AddressModal from "./modals/AddressModal";
+import { handleAddTransaction } from "@/app/services/ItemService";
+import { useRouter } from "next/navigation";
 
 const { default: Navbar } = require("./Navbar");
 
@@ -24,6 +26,7 @@ const Shipping = () => {
   const [address, setAddress] = useState();
   const [addedAddress, setAddedAddress] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState();
+  const router = useRouter();
   useEffect(() => {
     const getCheckout = JSON.parse(localStorage.getItem("checkoutInfo"));
     setCheckout(getCheckout);
@@ -38,6 +41,25 @@ const Shipping = () => {
   useEffect(() => {
     console.log(addedAddress);
   }, [addedAddress]);
+  const handlePayment = async () => {
+    const respone = JSON.parse(localStorage.getItem("checkoutInfo"));
+    const addressString = Object.values(respone.address)
+      .filter((value) => value !== undefined)
+      .join(", ");
+    console.log(paymentMethod);
+    respone?.totalCart.map(async (index) => {
+      const transaction = {
+        address: addressString,
+        amount: index.count,
+        price: index.totalPrice,
+        itemID: index.data.id,
+        userID: respone.user.id,
+        paymentMethod: paymentMethod,
+      };
+      await handleAddTransaction(transaction);
+    });
+    router.push("/me/order");
+  };
   return (
     <>
       <Navbar />
@@ -53,7 +75,7 @@ const Shipping = () => {
             {checkout && (
               <FormControlLabel
                 className="address-box"
-                value={checkout?.address?.ward?.ward_id}
+                value={checkout?.address?.ward}
                 control={<Radio />}
                 label={
                   <div className="address-info">
@@ -63,9 +85,8 @@ const Shipping = () => {
                         marginTop: -20,
                       }}
                     >
-                      {checkout?.address?.ward?.ward_name},{" "}
-                      {checkout?.address?.district?.district_name},{" "}
-                      {checkout?.address?.province?.province_name}
+                      {checkout?.address?.ward}, {checkout?.address?.district},{" "}
+                      {checkout?.address?.province}
                     </p>
                   </div>
                 }
@@ -87,9 +108,8 @@ const Shipping = () => {
                               marginTop: -20,
                             }}
                           >
-                            {address?.ward?.ward_name},{" "}
-                            {address?.district?.district_name},{" "}
-                            {address?.province?.province_name}
+                            {address?.ward}, {address?.district},{" "}
+                            {address?.province}
                           </p>
                         </div>
                       }
@@ -109,7 +129,9 @@ const Shipping = () => {
           </button>
           <div className="button-group">
             <button className="back-btn">Quay lại</button>
-            <button className="checkout-btn">Thanh toán</button>
+            <button className="checkout-btn" onClick={() => handlePayment()}>
+              Thanh toán
+            </button>
           </div>
         </Stack>
         <Stack className="shipping-cart">
@@ -152,7 +174,7 @@ const Shipping = () => {
         >
           <FormControlLabel
             className="payment-method-bõ"
-            value={paymentMethod}
+            value={"Thanh toán tiền mặt khi nhận hàng"}
             control={<Radio />}
             label={
               <div className="address-info">

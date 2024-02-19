@@ -12,7 +12,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={inter.className}
+        style={{
+          backgroundColor: "#f7f7f7",
+        }}
+      >
         <GlobalProvider>{children}</GlobalProvider>
       </body>
     </html>

@@ -8,10 +8,15 @@ export const CartProvider = ({ children }) => {
   const [numberProduct, setNumberProduct] = useState(0);
   const [totalCart, setTotalCart] = useState([]);
   const [checkoutInfo, setCheckoutInfo] = useState();
+  const [order, setOrder] = useState();
   const uniqueProduct = _.uniqBy(cart, "id");
   const countUniqueProduct = _.countBy(cart, "id");
   const handleAddToCart = (product) => {
-    setCart([...cart, product]);
+    if (cart == null) {
+      setCart([product]);
+    } else {
+      setCart([...cart, product]);
+    }
     localStorage.setItem("productCart", JSON.stringify(cart));
   };
   const addCart = (item) => {
@@ -63,6 +68,8 @@ export const CartProvider = ({ children }) => {
         handleRemoveProduct,
         checkoutInfo,
         setCheckoutInfo,
+        order,
+        setOrder,
       }}
     >
       {children}

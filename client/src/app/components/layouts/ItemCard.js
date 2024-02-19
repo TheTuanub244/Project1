@@ -27,13 +27,19 @@ const ItemCard = ({ item }) => {
             />
             <p>{item?.totalRate}</p>
           </div>
-          <p>{item?.description}</p>
+          <p
+            style={{
+              marginTop: -10,
+            }}
+          >
+            {item?.description}
+          </p>
         </div>
         <div className="item-checkout">
           <h4>
             {typeof item?.oldPrice === "number" &&
               item?.oldPrice.toLocaleString("en-US")}
-            đ
+            <sup>₫</sup>
           </h4>
           <p>Miễn phí giao hàng</p>
           <button onClick={() => handleAddToCart(item)}>

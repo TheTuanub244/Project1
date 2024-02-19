@@ -17,15 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         targetKey: "id",
       });
-      this.hasMany(models.Review, {
-        onDelete: "CASCADE",
-        foreignKey: {
-          field: "itemID",
-          allowNull: false,
-          require: true,
-        },
-        targetKey: "id",
-      });
+      this.hasMany(models.Review);
     }
   }
   Item.init(

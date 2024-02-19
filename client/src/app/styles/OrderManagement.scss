@@ -1,0 +1,82 @@
+.order-management-container {
+  margin-left: 13%;
+  h4 {
+    font-size: 30px;
+  }
+  .order-table {
+    width: 80%;
+    .form-control {
+      width: 20%;
+      .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+        width: 100%;
+        margin-bottom: 20px;
+        background-color: white;
+      }
+    }
+    .search-box {
+      width: 60%;
+      input {
+        width: 40%;
+        font-size: 20px;
+        height: 30px;
+        margin-left: 30px;
+        padding: 10px;
+      }
+    }
+    table {
+      background-color: white;
+      border: 1px solid black;
+      width: 100%;
+      thead {
+        tr {
+          td {
+            padding: 10px;
+
+            font-size: 20px;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 18px;
+            padding: 10px;
+            .item-image {
+              display: flex;
+              align-items: center;
+              img {
+                width: 14%;
+              }
+              p {
+                margin-left: 20px;
+              }
+            }
+          }
+          .shipping {
+            color: #ffb400;
+          }
+          .state {
+            width: 10%;
+            height: 20px;
+            font-weight: 700;
+          }
+          .progessing {
+            color: #9055fd !important;
+          }
+          .delivered {
+            color: #56ca00 !important;
+          }
+          .cancel {
+            color: #ff4c51 !important;
+          }
+          .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+            border: 1px solid black;
+          }
+        }
+        tr:hover {
+          background-color: rgb(246, 252, 255);
+        }
+      }
+    }
+  }
+}

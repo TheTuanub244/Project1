@@ -5,7 +5,7 @@ const ReviewCard = ({ avatar, userName, createdDate, rate, description }) => {
   return (
     <div className="review-card-container">
       <div className="card-header">
-        <h4>{userName}</h4>
+        <h4>Người dùng: {userName}</h4>
         <p>{createdDate}</p>
       </div>
       <div className="card-body">

@@ -23,9 +23,12 @@ const SignIn = () => {
       localStorage.setItem(
         "user",
         JSON.stringify({
+          id: getRespone?.data?.respone?.DT?.id,
           lastName: getRespone?.data?.respone?.DT?.lastName,
           firstName: getRespone?.data?.respone?.DT?.firstName,
           email: getRespone?.data?.respone?.DT?.email,
+          avatar: getRespone?.data?.respone?.DT?.avatar,
+          isAdmin: getRespone?.data?.respone?.DT?.isAdmin,
         })
       );
       const getCallbackURL = JSON.parse(localStorage.getItem("callbackURL"));
@@ -98,7 +101,9 @@ const SignIn = () => {
         <div className="seperator" />
         <div className="register-container">
           <p>Chưa có tài khoản? </p>
-          <p className="register-btn">Đăng ký</p>
+          <p className="register-btn" onClick={() => router.push("/register")}>
+            Đăng ký
+          </p>
         </div>
       </Stack>
     </>

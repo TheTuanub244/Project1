@@ -17,6 +17,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         targetKey: "id",
       });
+      this.hasMany(models.Transaction, {
+        onDelete: "CASCADE",
+        foreignKey: {
+          field: "userID",
+          allowNull: false,
+          require: true,
+        },
+        targetKey: "id",
+      });
     }
   }
   User.init(
@@ -27,6 +36,8 @@ module.exports = (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       password: DataTypes.STRING,
       email: DataTypes.STRING,
+      phoneNumber: DataTypes.STRING,
+      isAdmin: DataTypes.BOOLEAN,
     },
     {
       sequelize,

@@ -63,16 +63,12 @@ const AddressModal = ({
   const handleSubmitAddress = () => {
     setAddress({
       moreAddress: moreAddress,
-      province: selectedProvince,
-      district: selecetedDistrict,
-      ward: selectedWard,
+      province: selectedProvince?.province_name,
+      district: selecetedDistrict?.district_name,
+      ward: selectedWard?.ward_name,
     });
     handleClose();
   };
-  useEffect(() => {
-    console.log(selecetedDistrict);
-    console.log(selectedProvince);
-  }, [open]);
   return (
     <Modal
       open={open}

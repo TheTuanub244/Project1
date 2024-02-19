@@ -2,6 +2,8 @@
   width: 20%;
   margin-left: 38%;
   margin-top: 10%;
+  margin-bottom: 10%;
+
   padding: 20px;
   box-shadow: 2px 2px 2px 5px rgb(181, 181, 184);
   border-radius: 10px;
@@ -56,5 +58,51 @@
   }
   .hidden-div {
     display: none;
+  }
+}
+.register-dialog {
+  width: 20%;
+  margin-left: 38%;
+  margin-top: 5%;
+  margin-bottom: 10%;
+  padding: 20px;
+  box-shadow: 2px 2px 2px 5px rgb(181, 181, 184);
+  border-radius: 10px;
+  p {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  input {
+    width: 95%;
+    font-size: 20px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid rgb(181, 181, 184);
+    border-radius: 10px;
+  }
+  .error {
+    margin-top: 5px;
+    color: red;
+    display: block;
+    font-family: 700;
+  }
+  .invalid-input {
+    border: 2px solid red;
+  }
+  .hidden-div {
+    display: none;
+  }
+  .btn-container {
+    margin: 20px 0 0 0;
+    button {
+      width: 100%;
+      font-size: 20px;
+      padding: 10px 20px 10px 20px;
+      border: none;
+      background-color: rgb(37 99 235);
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+    }
   }
 }
